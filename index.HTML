@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exemplo de campo de assinatura digital</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<h1>Assinatura Digital</h1>
+	<p>Por favor, assine abaixo:</p>
+	<canvas id="signature-pad" width=400 height=200 style="border: 1px solid black"></canvas>
+	<br>
+	<button onclick="clearCanvas()">Limpar</button>
+	<button onclick="saveSignature()">Salvar</button>
+
+	<script>
+		var canvas = document.getElementById('signature-pad');
+		var context = canvas.getContext('2d');
+		context.strokeStyle = "#000000";
+		context.lineWidth = 3;
+		var isDrawing = false;
+		
+		canvas.addEventListener('mousedown', function(event) {
+			isDrawing = true;
+			context.beginPath();
+			context.moveTo(event.offsetX, event.offsetY);
+		});
+
+		canvas.addEventListener('mousemove', function(event) {
+			if (isDrawing) {
+				context.lineTo(event.offsetX, event.offsetY);
+				context.stroke();
+			}
+		});
+
+		canvas.addEventListener('mouseup', function(event) {
+			isDrawing = false;
+		});
+
+		function clearCanvas() {
+			context.clearRect(0, 0, canvas.width, canvas.height);
+		}
+
+		function saveSignature() {
+			var signatureData = canvas.toDataURL();
+			console.log(signatureData);
+			alert('Assinatura salva com sucesso!');
+		}
+	</script>
+</body>
+</html>
